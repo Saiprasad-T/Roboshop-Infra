@@ -16,6 +16,6 @@ data "aws_ssm_parameter" "database-snet" {
   name = "/${var.project}/${var.environment}/vpc_id" 
 } */
 
-data "aws_ssm_parameter" "monogdb-sg-id" {
+data "aws_ssm_parameter" "mongodb-sg-id" {
   name = "/${var.project}/${var.environment}/mongodb-sg-id" 
 }
