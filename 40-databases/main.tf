@@ -12,12 +12,12 @@ resource "aws_instance" "mongodb" {
   )
 }
 
-resource "terraform_data" "mongodb" {
+resource "terraform_data" "mongodb" {   #triggering to mongodb
   triggers_replace = [
     aws_instance.mongodb.id,
   ]
 
-  connection {
+  connection {   #connecting to mongodb
     type     = "ssh"
     user     = "ec2-user"
     password = "DevOps321"
@@ -29,10 +29,10 @@ resource "terraform_data" "mongodb" {
     destination = "/tmp/bootstrap.sh"    # Destination path on the remote machine
   }
 
-  provisioner "remote-exec" {
+  provisioner "remote-exec" {   #after connecting it executes this values
      inline = [
-        "chmod +x /tmp/bootstrap.sh",
-        "sudo sh /tmp/bootstrap.sh"
+        "chmod +x /tmp/bootstrap.sh",   #giving execution permission
+        "sudo sh /tmp/bootstrap.sh mongodb"     #running that bootstarp.sh
     ]
   }
 }
