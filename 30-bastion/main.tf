@@ -38,7 +38,7 @@ resource "aws_iam_role" "bastion_role" {
 #creating permisions for the role
 resource "aws_iam_role_policy_attachment" "bastion_permission" {
   role       = aws_iam_role.bastion_role.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2FullAccess"
+  policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
 }
 
 #instance profile
