@@ -3,6 +3,7 @@
 dnf install ansible -y  #install ansible
 
 component=$1   #mongodb will come in $1
+environment=$2
 
 cd /home/ec2-user  #go this path $ do git clone
 
@@ -12,4 +13,4 @@ cd roboshop-ansible-roles-tf #move this directory
 
 git pull  #updates if you find any updates
 
-ansible-playbook -e component=$component roboshop.yaml  #run this play book
+ansible-playbook -e component=$component roboshop.yaml  -e  #run this play book

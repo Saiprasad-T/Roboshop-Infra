@@ -19,3 +19,15 @@ data "aws_ssm_parameter" "database-snet" {
 data "aws_ssm_parameter" "mongodb-sg-id" {
   name = "/${var.project}/${var.environment}/mongodb-sg-id" 
 }
+
+data "aws_ssm_parameter" "redis-sg-id" {
+  name = "/${var.project}/${var.environment}/redis-sg-id" 
+}
+
+data "aws_ssm_parameter" "mysql-sg-id" {
+  name = "/${var.project}/${var.environment}/mysql-sg-id" 
+}
+
+data "aws_ssm_parameter" "rabbitmq-sg-id" {
+  name = "/${var.project}/${var.environment}/rabbitmq-sg-id" 
+}
