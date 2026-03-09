@@ -13,4 +13,4 @@ cd roboshop-ansible-roles-tf #move this directory
 
 git pull  #updates if you find any updates
 
-ansible-playbook -e component=$component -e environment=$environment roboshop.yaml #run this play book
+ansible-playbook -e component=$component -e env=$environment roboshop.yaml #run this play book
