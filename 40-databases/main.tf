@@ -119,4 +119,42 @@ resource "terraform_data" "mysql" {
   }
 }
 #=======================================================================================
+resource "aws_instance" "rabbitmq" {
+  ami                     = local.ami_id
+  instance_type           = var.instance_type
+  subnet_id               = local.database_snet[0]
+  vpc_security_group_ids  = [local.rabbitmq_sg_id]
+  iam_instance_profile    = aws_iam_instance_profile.rabbitmq_profile.name
+  tags = merge(
+    local.common_tags,
+ {
+    Name =  "${var.project}-${var.environment}-rabbitmq"
+ },
+    var.ec2_tags
+  )
+}
 
+resource "terraform_data" "rabbitmq" {   
+  triggers_replace = [
+    aws_instance.rabbitmq.id,
+  ]
+
+  connection {   
+    type     = "ssh"
+    user     = "ec2-user"
+    password = "DevOps321"
+    host     = aws_instance.rabbitmq.private_ip  
+  }
+
+  provisioner "file" {
+    source      = "bootstrap.sh" 
+    destination = "/tmp/bootstrap.sh"    
+  }
+
+  provisioner "remote-exec" {   #after connecting it executes this values
+     inline = [
+        "chmod +x /tmp/bootstrap.sh",   #giving execution permission
+        "sudo sh /tmp/bootstrap.sh rabbit_mq dev"     #running that bootstarp.sh
+    ]
+  }
+}

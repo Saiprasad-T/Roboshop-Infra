@@ -4,7 +4,7 @@ locals {
     mongodb_sg_id = data.aws_ssm_parameter.mongodb-sg-id.value
     redis_sg_id = data.aws_ssm_parameter.redis-sg-id.value
     mysql_sg_id = data.aws_ssm_parameter.mysql-sg-id.value
-    /* rabbitmq_sg_id = data.aws_ssm_parameter.rabbitmq-sg-id.value */
+    rabbitmq_sg_id = data.aws_ssm_parameter.rabbitmq-sg-id.value
 }
 
 locals {
