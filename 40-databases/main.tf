@@ -83,7 +83,7 @@ resource "aws_instance" "mysql" {
   ami                     = local.ami_id
   instance_type           = var.instance_type
   subnet_id               = local.database_snet[0]
-  vpc_security_group_ids  = [local.mysql]
+  vpc_security_group_ids  = [local.mysql_sg_id]
   iam_instance_profile    = aws_iam_instance_profile.mysql_profile.name
   tags = merge(
     local.common_tags,

@@ -17,7 +17,7 @@ resource "aws_iam_role" "mysql_role" {
 
 #creating policy
 resource "aws_iam_policy" "mysql" {
-  name        = mysql_policy
+  name        = "roboshop-${var.environment}-mysql-policy"
   description = "A policy for MySQL Ec2 instance"
   policy      = templatefile("mysql-iam-policy.json", {
                 environment = var.environment
@@ -27,7 +27,7 @@ resource "aws_iam_policy" "mysql" {
 #attaching policy to the role
 resource "aws_iam_role_policy_attachment" "mysql_policy" {
   role       = aws_iam_role.mysql_role.name
-  policy_arn = "aws_iam_policy.mysql.arn"
+  policy_arn = aws_iam_policy.mysql.arn
 }
 
 #instance profile
