@@ -154,7 +154,7 @@ resource "terraform_data" "rabbitmq" {
   provisioner "remote-exec" {   #after connecting it executes this values
      inline = [
         "chmod +x /tmp/bootstrap.sh",   #giving execution permission
-        "sudo sh /tmp/bootstrap.sh rabbit_mq dev"     #running that bootstarp.sh
+        "sudo sh /tmp/bootstrap.sh rabbitmq dev"     #running that bootstarp.sh
     ]
   }
 }
