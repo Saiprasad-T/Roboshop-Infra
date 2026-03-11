@@ -3,7 +3,7 @@ resource "aws_lb" "backend_alb" {
   internal           = true
   load_balancer_type = "application"
   security_groups    = [local.backend_alb-sg-id]
-  subnets            = [local.private_snet]
+  subnets            = local.private_snet
 
   enable_deletion_protection = false
 
