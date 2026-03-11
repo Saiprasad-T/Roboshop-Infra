@@ -1,5 +1,5 @@
 resource "aws_lb" "backend_alb" {
-  name               = "${var.project}-${var.env}-backend-alb"   #roboshop-dev-bacakend-alb
+  name               = "${var.project}-${var.environment}-backend-alb"   #roboshop-dev-bacakend-alb
   internal           = true
   load_balancer_type = "application"
   security_groups    = [local.backend_alb-sg-id]
