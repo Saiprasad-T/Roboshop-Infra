@@ -129,7 +129,7 @@ resource "aws_autoscaling_group" "catalogue" {
   version = "$Latest"
   }
   target_group_arns = [aws_lb_target_group.catalogue-tg.arn]
-  vpc_zone_identifier       = [local.private_snet]
+  vpc_zone_identifier   = local.private_snet
 
    instance_refresh {
     strategy = "Rolling"
