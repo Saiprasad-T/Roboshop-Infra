@@ -51,7 +51,7 @@ depends_on = [terraform_data.catalogue]
 #to take the ami
 
 resource "aws_ami_from_instance" "catalogue" {
-  name               = "catalogue-ami-${timestamp()}"
+  name               = "catalogue-ami-${formatdate("YYYYMMDDhhmmss", timestamp())}"
   source_instance_id = aws_instance.catalogue.id
   depends_on = [aws_ec2_instance_state.catalogue]
 }
