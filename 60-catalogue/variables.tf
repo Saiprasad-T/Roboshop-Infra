@@ -29,4 +29,10 @@ variable "domain" {
   default     = "devopswiththota.online"
 }
 
+variable "launch_template_tags" {
+  type        = map
+  default     = { }
+}
+
+
 

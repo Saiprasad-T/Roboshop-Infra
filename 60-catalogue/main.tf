@@ -56,14 +56,25 @@ resource "aws_ami_from_instance" "catalogue" {
   depends_on = [aws_ec2_instance_state.catalogue]
 }
 
-/* #=======================================
+#=======================================
 #target group 
 resource "aws_lb_target_group" "catalogue-tg" {
   name        = "${var.project}-${var.environment}-catalogue-tg"
   target_type = "alb"
   port        = 8080
   protocol    = "TCP"
+  deregistration_delay = 120
   vpc_id      = local.vpc_id
+
+  health_check = {
+    matcher = "200 to 299"
+    protocol = "HTTP"
+    port = 8080
+    healthy_threshold = 3
+    unhealthy_threshold = 2
+    timeout  = 5
+    path = "/health"
+  } 
 }
 
 #=======================================
@@ -72,26 +83,109 @@ resource "aws_lb_target_group" "catalogue-tg" {
 resource "aws_launch_template" "catalogue-lp" {
   name = "${var.project}-${var.environment}-catalogue-lp"
 
-  image_id = "ami-test"
+  image_id = aws_ami_from_instance.catalogue.id
 
-  instance_initiated_shutdown_behavior = "terminate"
+  instance_initiated_shutdown_behavior = "terminate"  #if less traffic terminate device
 
-  instance_market_options {
-    market_type = "spot"
-  }
+  instance_type = "t3.micro"
 
-  instance_type = "t2.micro"
+  update_default_version = true  #ASG starts using the latest version
 
-  placement {
-    availability_zone = "us-west-2a"
-  }
-  vpc_security_group_ids = ["sg-12345678"]
+
+  vpc_security_group_ids = [local.catalogue_sg_id]
 
   tag_specifications {
     resource_type = "instance"
 
-    tags = {
-      Name = "test"
+    tags = merge(
+    {
+      Name = "${var.project}-${var.environment}-catalogue"
+    }
+    local.common_tags,
+    )
+  }
+  tags = merge(
+    local.common_tags,
+    {
+        Name =  "${var.project}-${var.environment}-backend-alb"
+    },
+    var.launch_template_tags
+  )
+}
+
+#===============================================================
+#ASG
+
+resource "aws_autoscaling_group" "catalogue" {
+  name                      = "${var.project}-${var.environment}-catalogue"
+  max_size                  = 5
+  min_size                  = 1
+  health_check_grace_period = 120
+  health_check_type         = "ELB"
+  desired_capacity          = 2
+  force_delete              = false
+  launch_template {
+  id      = aws_launch_template.catalogue-lp.id
+  version = "$Latest"
+  }
+  target_group_arns = [aws_lb_target_group.catalogue-tg.arn]
+  vpc_zone_identifier       = [local.private_snet]
+
+   instance_refresh {
+    strategy = "Rolling"
+    preferences {
+      min_healthy_percentage = 50
+    }
+    triggers = ["launch_template"]
+  }
+
+  tag {
+    key                 = "Name"
+    value               = "${var.project}-${var.environment}-catalogue"
+    propagate_at_launch = true
+  }
+
+  timeouts {
+    delete = "15m"
+  }
+}
+
+resource "aws_autoscaling_policy" "catalogue" {
+  autoscaling_group_name = aws_autoscaling_group.catalogue.name
+  name                   = "${var.project}-${var.environment}-catalogue"
+  policy_type            = "TargetTrackingScaling"
+  estimated_instance_warmup = 120
+
+  target_tracking_configuration {
+    predefined_metric_specification {
+      predefined_metric_type = "ASGAverageCPUUtilization"
+    }
+    target_value = 70.0
+  }
+}
+
+#======================================================================
+
+resource "aws_lb_listener_rule" "static" {
+  listener_arn = local.listner_arn
+  priority     = 10
+  action {
+  type             = "forward"
+  target_group_arn = aws_lb_target_group.catalogue-tg.arn
+  }
+  condition {
+    host_header {
+      values = ["catalogue.backend_alb.devopswiththota.online"]
     }
   }
-} */
+}
+
+resource "terraform_data" "catalogue_delete" {   
+  triggers_replace = [
+    aws_instance.catalogue.id,
+  ]
+  depends_on = [aws_autoscaling_policy.catalogue]
+  provisioner "local-exec" {   #after connecting it executes this values
+     command = "aws ec2 terminate-instances --instance-ids ${aws_instance.catalogue.id}"
+  }
+}
