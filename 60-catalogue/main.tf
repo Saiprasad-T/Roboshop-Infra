@@ -60,18 +60,18 @@ resource "aws_ami_from_instance" "catalogue" {
 #target group 
 resource "aws_lb_target_group" "catalogue-tg" {
   name        = "${var.project}-${var.environment}-catalogue-tg"
-  target_type = "alb"
   port        = 8080
-  protocol    = "TCP"
+  protocol    = "HTTP"
   deregistration_delay = 120
   vpc_id      = local.vpc_id
 
   health_check {
-    matcher = "200 to 299"
+    matcher = "200-299"
     protocol = "HTTP"
     port = 8080
     healthy_threshold = 3
     unhealthy_threshold = 2
+    interval = 10
     timeout  = 5
     path = "/health"
   } 
@@ -107,7 +107,7 @@ resource "aws_launch_template" "catalogue-lp" {
   tags = merge(
     local.common_tags,
     {
-        Name =  "${var.project}-${var.environment}-backend-alb"
+        Name =  "${var.project}-${var.environment}-catalogue"
     },
     var.launch_template_tags
   )
@@ -136,7 +136,7 @@ resource "aws_autoscaling_group" "catalogue" {
     preferences {
       min_healthy_percentage = 50
     }
-    triggers = [launch_template]
+    triggers = ["launch_template"]
   }
 
   tag {
