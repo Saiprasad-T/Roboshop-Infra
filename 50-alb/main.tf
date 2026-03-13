@@ -18,7 +18,7 @@ resource "aws_lb" "backend_alb" {
 
 #listner
 
-resource "aws_lb_listener" "listner" {
+resource "aws_lb_listener" "default_listner" {
   load_balancer_arn = aws_lb.backend_alb.arn
   port              = "80"
   protocol          = "HTTP"
