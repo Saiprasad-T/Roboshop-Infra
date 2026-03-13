@@ -100,8 +100,8 @@ resource "aws_launch_template" "catalogue-lp" {
     tags = merge(
     {
       Name = "${var.project}-${var.environment}-catalogue"
-    }
-    local.common_tags,
+    },
+    local.common_tags
     )
   }
   tags = merge(
