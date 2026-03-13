@@ -66,7 +66,7 @@ resource "aws_lb_target_group" "catalogue-tg" {
   deregistration_delay = 120
   vpc_id      = local.vpc_id
 
-  health_check = {
+  health_check {
     matcher = "200 to 299"
     protocol = "HTTP"
     port = 8080
