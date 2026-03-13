@@ -12,9 +12,9 @@ data "aws_ssm_parameter" "private-snet" {
   name = "/${var.project}/${var.environment}/private-snet" 
 }
 
-/* data "aws_ssm_parameter" "vpc_id" {
+data "aws_ssm_parameter" "vpc_id" {
   name = "/${var.project}/${var.environment}/vpc_id" 
-} */
+}
 
 data "aws_ssm_parameter" "catalogue-sg-id" {
   name = "/${var.project}/${var.environment}/catalogue-sg-id" 

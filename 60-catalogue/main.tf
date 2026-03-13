@@ -53,4 +53,45 @@ depends_on = [terraform_data.catalogue]
 resource "aws_ami_from_instance" "catalogue" {
   name               = "catalogue-ami"
   source_instance_id = aws_instance.catalogue.id
+  depends_on = [aws_ami_from_instance.catalogue]
 }
+
+/* #=======================================
+#target group 
+resource "aws_lb_target_group" "catalogue-tg" {
+  name        = "${var.project}-${var.environment}-catalogue-tg"
+  target_type = "alb"
+  port        = 8080
+  protocol    = "TCP"
+  vpc_id      = local.vpc_id
+}
+
+#=======================================
+#launch template
+
+resource "aws_launch_template" "catalogue-lp" {
+  name = "${var.project}-${var.environment}-catalogue-lp"
+
+  image_id = "ami-test"
+
+  instance_initiated_shutdown_behavior = "terminate"
+
+  instance_market_options {
+    market_type = "spot"
+  }
+
+  instance_type = "t2.micro"
+
+  placement {
+    availability_zone = "us-west-2a"
+  }
+  vpc_security_group_ids = ["sg-12345678"]
+
+  tag_specifications {
+    resource_type = "instance"
+
+    tags = {
+      Name = "test"
+    }
+  }
+} */
