@@ -8,8 +8,20 @@ variable "environment" {
     default = "dev"
 }
 
-variable "sg_names" {
+/* variable "sg_names" {
     type = list
+    default = [
+        "mongodb","redis","rabbitmq","mysql",
+        "catalogue","user","cart","shipping","payment",
+        "frontend",
+        "frontend_alb",
+        "backend_alb",
+        "bastion"
+    ]
+}
+ */
+variable "sg_names" {
+    type = set(string)
     default = [
         "mongodb","redis","rabbitmq","mysql",
         "catalogue","user","cart","shipping","payment",
