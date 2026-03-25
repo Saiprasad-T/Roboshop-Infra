@@ -37,8 +37,8 @@ resource "aws_iam_role" "bastion_role" {
 
 #creating permisions for the role
 resource "aws_iam_role_policy_attachment" "bastion_permission" {
-  role       = aws_iam_role.bastion_role.name
-  policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
+  role       = aws_iam_role.bastion_role.name   #it expects name for creation, using attribute .name
+  policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess" #we get this from portal through iam--policies
 }
 
 #instance profile
