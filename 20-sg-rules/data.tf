@@ -42,3 +42,7 @@ data "aws_ssm_parameter" "payment-sg-id" {
 data "aws_ssm_parameter" "rabbitmq-sg-id" {
   name = "/${var.project}/${var.environment}/rabbitmq-sg-id" 
 }
+
+data "aws_ssm_parameter" "backend-alb-sg-id" {
+  name = "/${var.project}/${var.environment}/backend-alb-sg-id" 
+}

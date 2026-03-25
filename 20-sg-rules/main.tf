@@ -103,3 +103,35 @@ resource "aws_security_group_rule" "rabbitmq_payment" {
   source_security_group_id = local.payment
   security_group_id = local.rabbitmq
 } */
+
+#=================================================================
+
+
+ #bastion to backend_alb
+resource "aws_security_group_rule" "practice_lb" {
+  type              = "ingress"
+  from_port         = 80
+  to_port           = 80
+  protocol          = "tcp"
+  source_security_group_id = local.bastion
+  security_group_id = local.backend_alb
+}
+
+#bastion to catalogue
+resource "aws_security_group_rule" "catalogue_bastion" {
+  type              = "ingress"
+  from_port         = 22
+  to_port           = 22
+  protocol          = "tcp"
+  source_security_group_id = local.bastion
+  security_group_id = local.catalogue
+}
+
+resource "aws_security_group_rule" "catalogue_backend_alb" {
+  type              = "ingress"
+  from_port         = 8080
+  to_port           = 8080
+  protocol          = "tcp"
+  source_security_group_id = local.backend_alb
+  security_group_id = local.catalogue
+}
