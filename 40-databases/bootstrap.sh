@@ -1,12 +1,12 @@
 #!/bin/bash
 
-echo "Component: $component"
-echo "Environment: $environment"
-
 dnf install ansible -y  #install ansible
 
 component=$1   #mongodb will come in $1
 environment=$2
+
+echo "Component: $component"
+echo "Environment: $environment"
 
 cd /home/ec2-user  #go this path $ do git clone
 
