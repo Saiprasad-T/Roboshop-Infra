@@ -2,6 +2,7 @@
 
 dnf install ansible -y  #install ansible
 
+echo "Args: $1 $2"
 component=$1   #mongodb will come in $1
 environment=$2
 
