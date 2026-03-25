@@ -10,5 +10,5 @@ locals {
     shipping = data.aws_ssm_parameter.shipping-sg-id.value
     payment = data.aws_ssm_parameter.payment-sg-id.value
     rabbitmq = data.aws_ssm_parameter.rabbitmq-sg-id.value
-    backend_alb = data.aws_ssm_parameter.backend_alb-sg-id.value
+    backend_alb = data.aws_ssm_parameter.backend-alb-sg-id.value
 }
