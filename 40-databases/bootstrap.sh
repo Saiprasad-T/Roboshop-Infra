@@ -1,5 +1,8 @@
 #!/bin/bash
 
+echo "Component: $component"
+echo "Environment: $environment"
+
 dnf install ansible -y  #install ansible
 
 component=$1   #mongodb will come in $1
