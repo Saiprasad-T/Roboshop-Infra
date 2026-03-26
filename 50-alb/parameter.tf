@@ -1,6 +1,6 @@
 resource "aws_ssm_parameter" "listener_arn" {
   name  = "/${var.project}/${var.environment}/listener_arn" 
   type  = "String"
-  value = aws_lb_listener.default_listner.arn
+  value = aws_lb_listener.default_listener.arn
 }
 
