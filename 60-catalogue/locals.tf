@@ -3,7 +3,7 @@ locals {
     private_snet = split(",", data.aws_ssm_parameter.private-snet.value)
     catalogue_sg_id = data.aws_ssm_parameter.catalogue-sg-id.value
     vpc_id = data.aws_ssm_parameter.vpc_id.value
-    listener_arn = data.aws_ssm_parameter.listener_arn.value
+    listner_arn = data.aws_ssm_parameter.listner_arn.value
 }
 
 locals {
