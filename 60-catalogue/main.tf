@@ -57,7 +57,7 @@ resource "aws_ami_from_instance" "catalogue" {
 }
 
 #=======================================
-#target group 
+#created only target groups
 resource "aws_lb_target_group" "catalogue-tg" {
   name        = "${var.project}-${var.environment}-catalogue-tg"
   port        = 8080
@@ -175,7 +175,7 @@ resource "aws_lb_listener_rule" "static" {
   }
   condition {
     host_header {
-      values = ["catalogue.backend_alb.devopswiththota.online"]
+      values = ["catalogue.backend-alb.devopswiththota.online"]
     }
   }
 }
