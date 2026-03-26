@@ -21,6 +21,6 @@ data "aws_ssm_parameter" "catalogue-sg-id" {
 }
 
 data "aws_ssm_parameter" "listner_arn" {
-  name = "/${var.project}/${var.environment}/listner_arn" 
+  name = "/${var.project}/${var.environment}/listener_arn" 
 }
 
