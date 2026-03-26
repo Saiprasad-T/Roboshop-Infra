@@ -51,7 +51,8 @@ depends_on = [terraform_data.catalogue]
 #to take the ami
 
 resource "aws_ami_from_instance" "catalogue" {
-  name               = "catalogue-ami-${formatdate("YYYYMMDDhhmmss", timestamp())}"
+  name               = "catalogue-ami"
+  # name               = "catalogue-ami-${formatdate("YYYYMMDDhhmmss", timestamp())}" #as this format creating from starting
   source_instance_id = aws_instance.catalogue.id
   depends_on = [aws_ec2_instance_state.catalogue]
 }
@@ -160,7 +161,7 @@ resource "aws_autoscaling_policy" "catalogue" {
     predefined_metric_specification {
       predefined_metric_type = "ASGAverageCPUUtilization"
     }
-    target_value = 70.0
+    target_value = 50.0
   }
 }
 
