@@ -166,19 +166,19 @@ resource "aws_autoscaling_policy" "catalogue" {
 
 #======================================================================
 
-resource "aws_lb_listener_rule" "static" {
-  listener_arn = local.listner_arn
-  priority     = 10
-  action {
-  type             = "forward"
-  target_group_arn = aws_lb_target_group.catalogue-tg.arn
-  }
-  condition {
-    host_header {
-      values = ["catalogue.backend-alb.devopswiththota.online"]
-    }
-  }
-}
+# resource "aws_lb_listener_rule" "static" {
+#   listener_arn = local.listner_arn
+#   priority     = 10
+#   action {
+#   type             = "forward"
+#   target_group_arn = aws_lb_target_group.catalogue-tg.arn
+#   }
+#   condition {
+#     host_header {
+#       values = ["catalogue.backend-alb.devopswiththota.online"]
+#     }
+#   }
+# }
 
 resource "terraform_data" "catalogue_delete" {   
   triggers_replace = [
