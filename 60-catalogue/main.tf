@@ -92,7 +92,6 @@ resource "aws_launch_template" "catalogue-lp" {
 
   update_default_version = true  #ASG starts using the latest version
 
-
   vpc_security_group_ids = [local.catalogue_sg_id]
 
   tag_specifications {
@@ -161,7 +160,7 @@ resource "aws_autoscaling_policy" "catalogue" {
     predefined_metric_specification {
       predefined_metric_type = "ASGAverageCPUUtilization"
     }
-    target_value = 50.0
+    target_value = 70.0
   }
 }
 
