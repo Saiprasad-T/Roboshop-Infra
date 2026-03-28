@@ -46,3 +46,7 @@ data "aws_ssm_parameter" "rabbitmq-sg-id" {
 data "aws_ssm_parameter" "backend-alb-sg-id" {
   name = "/${var.project}/${var.environment}/backend-alb-sg-id" 
 }
+
+data "aws_ssm_parameter" "frontend-alb-sg-id" {
+  name = "/${var.project}/${var.environment}/frontend-alb-sg-id" 
+}
