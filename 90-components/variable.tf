@@ -11,10 +11,10 @@ variable "instance_type" {
   default = "t3.micro"
 }
 
-variable "component" {
+/* variable "component" {
     type = string
 }
 
 variable "rule_priority" {
    type = number
-}
+} */
