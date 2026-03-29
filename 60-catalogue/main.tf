@@ -51,7 +51,7 @@ depends_on = [terraform_data.catalogue]
 #to take the ami
 
 resource "aws_ami_from_instance" "catalogue" {
-  name               = "catalogue-ami"
+  name               = "catalogue-ami-${aws_instance.catalogue.id}"
   # name               = "catalogue-ami-${formatdate("YYYYMMDDhhmmss", timestamp())}" #as this format creating from starting
   source_instance_id = aws_instance.catalogue.id
   depends_on = [aws_ec2_instance_state.catalogue]
@@ -175,7 +175,7 @@ resource "aws_lb_listener_rule" "static" {
    }
    condition {
      host_header {
-       values = ["catalogue.backend-alb.devopswiththota.online"]
+       values = ["catalogue.backend-alb-${var.environment}.${var.domain}"]
      }
  }
  } 
